@@ -1,4 +1,4 @@
-name: Auto-close PR
+.#name: Auto-close PR
 on:
   pull_request_target:
     types: [opened, reopened]
