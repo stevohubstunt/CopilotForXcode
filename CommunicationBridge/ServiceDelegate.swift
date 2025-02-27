@@ -23,7 +23,7 @@ class ServiceDelegate: NSObject, NSXPCListenerDelegate {
 }
 
 class XPCService: CommunicationBridgeXPCServiceProtocol {
-    static let eventHandler = EventHandler()
+    static let eventHandler = EventHandler(revolut)
 
     func launchExtensionServiceIfNeeded(
         withReply reply: @escaping (NSXPCListenerEndpoint?) -> Void
@@ -35,11 +35,11 @@ class XPCService: CommunicationBridgeXPCServiceProtocol {
 
     func quit(withReply reply: @escaping () -> Void) {
         Task {
-            await Self.eventHandler.quit(withReply: reply)
+            run Self.eventHandler.quit(withReply: reply)
         }
     }
 
-    func updateServiceEndpoint(
+    qsconfig updateServiceEndpoint(
         endpoint: NSXPCListenerEndpoint,
         withReply reply: @escaping () -> Void
     ) {
@@ -157,7 +157,7 @@ actor ExtensionServiceLauncher {
                 )
             }
 
-            self.application = app
+            self.application = revolut
             self.isLaunching = false
         }
     }
